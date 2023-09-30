@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # This script manages 'manage_my_process'
-case $1 in
+
+case $i in
     "start")
 	./manage_my_process & > /var/run/my_process.pid
 	echo 'manage_my_process started';;
