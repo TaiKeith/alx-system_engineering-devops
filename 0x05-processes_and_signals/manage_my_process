@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# This script is for process to practice process management
+
+i=1
+while [ $i ]; do
+      echo "I am alive!" > /tmp/my_process
+      sleep 2
+done
