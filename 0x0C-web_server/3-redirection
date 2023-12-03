@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Update packages
+apt-get update
+
+# Install nginx
+apt-get install -y nginx
+
+# Create the document root directory fo nginx
+mkdir /etc/nginx/html
+
+# Create an empty html file inside the root directory of nginx
+touch /etc/nginx/html/index.html
+
+echo "Hello World!" > /etc/nginx/html/index.html
+
+sed -i '/^server {/a \\n    location \/redirect_me {\n    return 301 https:\/\/youtu.be\/D1v0FNR3-Xc;    }\n' /etc/nginx/sites-available/default
+
+# Test configuration for syntax error
+nginx -t
+
+service nginx restart
