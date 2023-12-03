@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Update packages
+apt-get update
+
+# Install nginx
+apt-get install -y nginx
+
+# Create the document root directory fo nginx
+mkdir /etc/nginx/html
+
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
+
+sed -i '/^server {/a \\n    error_page 404 /404.html;\n    location = /404.html {\n    root /etc/nginx/html;\n    internal;\n    }\n' /etc/nginx/sites-available/default
+
+# Test configuration for syntax error
+nginx -t
+
+service nginx restart
