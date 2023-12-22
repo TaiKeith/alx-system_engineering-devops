@@ -9,6 +9,7 @@ apt-get install -y nginx
 mkdir /etc/nginx/html
 
 echo "Hello World!" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
 
 cat <<EOF > /etc/nginx/sites-available/default
 server {
@@ -16,19 +17,20 @@ server {
     listen    [::]:80 default_server;
     root      /etc/nginx/html;
     index     index.html index.htm;
+
+    location  /redirect_me {
+        return 301 https://youtu.be/D1v0FNR3-Xc;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root    /etc/nginx/html;
+        internal;
+    }
+
+    add_header X-Served-By $HOSTNAME;
 }
 EOF
-
-# For redirection
-sed -i '/^server {/a \\n    location \/redirect_me {\n    return 301 https:\/\/youtu.be\/D1v0FNR3-Xc;    }\n' /etc/nginx/sites-available/default
-
-# Error 404
-echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
-
-sed -i '/^server {/a \\n    error_page 404 /404.html;\n    location = /404.html {\n    root /etc/nginx/html;\n    internal;\n    }\n' /etc/nginx/sites-available/default
-
-# Custom http header
-sed -i '/^server_name _/a add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-available/default
 
 # Test configuration for syntax error
 nginx -t
