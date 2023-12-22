@@ -9,7 +9,6 @@ apt-get install -y nginx
 mkdir /etc/nginx/html
 
 echo "Hello World!" > /etc/nginx/html/index.html
-echo "Ceci n'est pas une page" > /etc/nginx/html/404.html
 
 cat <<EOF > /etc/nginx/sites-available/default
 server {
@@ -26,6 +25,7 @@ server {
     location = /404.html {
         root    /etc/nginx/html;
         internal;
+        return 404 "Ceci n'est pas une page";
     }
 
     add_header X-Served-By $HOSTNAME;
