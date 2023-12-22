@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Install HAProxy
+sudo apt-get update
+sudo apt-get install -y haproxy
+
+haproxy_config="/etc/haproxy/haproxy.cfg"
+
+# Check if config file exists
+if [ -e "$haproxy_config" ]; then
+        echo "Configuration file already exists."
+else
+        cat <<EOF | sudo tee -a "$haproxy_config" > /dev/null
+frontend  myfrontend
+    bind *:80
+    mode http
+    default_backend mybackend
+
+backend mybackend
+    balance roundrobin
+    server 256728-web-01 54.227.221.46:80 check
+    server 256728-web-02 52.86.160.210:80 check
+EOF
+fi
+
+# Enable HAProxy
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
+
+# Restart HAProxy
+sudo service haproxy restart
