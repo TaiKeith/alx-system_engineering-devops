@@ -29,7 +29,6 @@ sed -i '/^server {/a \\n    error_page 404 /404.html;\n    location = /404.html 
 
 # Custom http header
 sed -i '/^server_name _/a add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-available/default
-sed -i '/^server_name _/a echo "Hostname: $HOSTNAME";' /etc/nginx/sites-available/default
 
 # Test configuration for syntax error
 nginx -t
