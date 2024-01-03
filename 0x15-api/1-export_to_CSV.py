@@ -3,9 +3,9 @@
 This script uses a REST API for a given employee ID and returns information
 about his/her TODO list progress and exports the data in CSV format
 """
+import csv
 from requests import get
 import sys
-import csv
 
 
 if __name__ == "__main__":
@@ -24,4 +24,4 @@ if __name__ == "__main__":
 
         for task in tasks:
             csv_writer.writerow([user_id, username, task.get("completed"),
-                task.get("title")])
+                                task.get("title")])
