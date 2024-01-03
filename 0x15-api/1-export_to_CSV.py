@@ -19,9 +19,9 @@ if __name__ == "__main__":
     tasks = response.json()
 
     with open(f"{user_id}.csv", "w", newline='') as file:
-        csv_writer = csv.writer(file)
-        csv_writer.writerow(['User_ID', 'Username', 'Completed', 'Title'])
+        # file.write('"User_ID", "Username", "Completed", "Title"\n')
 
         for task in tasks:
-            csv_writer.writerow([user_id, username, task.get("completed"),
-                                task.get("title")])
+            completed = task.get("completed")
+            file.write(f'"{user_id}","{username}","{completed}",'
+                       f'"{task.get("title")}"\n')
