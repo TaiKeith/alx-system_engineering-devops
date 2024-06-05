@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# This script installs ufw firewall & set requirements
+
+# Update
+sudo apt-get update
+
+# Install UFW if not already installed
+sudo apt-get install ufw
+
+# Enable UFW
+sudo ufw enable
+
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow specific ports
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+
+# Enable UFW to start enforcing these rules
+sudo ufw enable
+
+# Check the status
+sudo ufw status
