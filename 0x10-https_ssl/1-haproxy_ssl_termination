@@ -33,19 +33,19 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
-frontend myfrontend
+frontend  myfrontend
         bind *:80
         mode http
         http-request redirect scheme https code 301 unless { ssl_fc }
         http-request set-header X-Forwarded-Proto http
-        default_backend webservers
+        default_backend mybackend
 
 frontend myfrontend_ssl
         bind *:443 ssl crt /etc/haproxy/certs/www.devkeith.tech.pem
         http-request set-header X-Forwarded-Proto https
-        default_backend webservers
+        default_backend mybackend
 
-backend webservers
+backend mybackend
         balance roundrobin
-        server 256728-web-01 100.26.253.187:80 check
-        server 256728-web-02 54.210.161.190:80 check
+        server 256728-web-01 54.237.45.70:80 check
+        server 256728-web-02 34.207.237.37:80 check
