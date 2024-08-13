@@ -17,9 +17,12 @@ def number_of_subscribers(subreddit):
     # Setting a custom User-Agent to avoid too mant requests error
     headers = {'User-Agent': 'My User Agent 1.0'}
 
+    # Send a GET request to the API
     response = requests.get(url, headers=headers, allow_redirects=False)
 
+    # Check if the request was successful
     if response.status_code == 200:
+        # Parse JSON response to get number of subscribers
         data = response.json().get('data', {})
         sub_count = data.get('subscribers', 0)
         return sub_count
