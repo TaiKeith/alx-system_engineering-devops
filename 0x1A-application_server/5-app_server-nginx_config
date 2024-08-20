@@ -1,0 +1,53 @@
+server {
+
+    location /hbnb_static {
+        alias /data/web_static/current/;
+    }
+
+    listen    80;
+    listen    [::]:80 default_server;
+
+    # Use IP of server as domain name
+    server_name 54.237.45.70;
+
+    root      /etc/nginx/html;
+    index     index.html index.htm;
+
+    location  /redirect_me {
+        return 301 https://youtu.be/D1v0FNR3-Xc;
+    }
+
+    error_page 404 /404.html;
+    location = /404.html {
+        root    /etc/nginx/html;
+        internal;
+        return 404 "Ceci n'est pas une page";
+    }
+
+    add_header X-Served-By 256728-web-01;
+
+    # Serve /airbnb-onepage/ route on AirBnB_clone_v2
+    location = /airbnb-onepage/ {
+        proxy_pass http://127.0.0.1:5000/airbnb-onepage/;
+    }
+
+    # Serve /number_odd_or_even/ route on AirBnB_clone_v2
+    location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
+        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+    }
+
+    # Serve AirBnB_clone_v3 API
+    location /api {
+        proxy_pass http://127.0.0.1:5002/api;
+    }
+
+    # Configure /2-hbnb route of AirBnB_clone_v4 as root location
+    location / {
+        proxy_pass http://127.0.0.1:5003/2-hbnb;
+    }
+
+    # Serve static content for AirBnB_clone_v4
+    location /static {
+        alias web_dynamic/static/;
+    }
+}
